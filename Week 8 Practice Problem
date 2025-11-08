@@ -1,0 +1,196 @@
+public abstract class Vehicle {
+    // Abstract method
+    public abstract void start();
+
+    // Non-abstract method
+    public void fuelType() {
+        System.out.println("Uses fuel");
+    }
+}
+public class Car extends Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Car starts with key");
+    }
+}
+public class Bike extends Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Bike starts with kick");
+    }
+}
+public class VehicleTest {
+    public static void main(String[] args) {
+        Vehicle v1 = new Car();
+        v1.start();
+        v1.fuelType();
+
+        Vehicle v2 = new Bike();
+        v2.start();
+        v2.fuelType();
+    }
+}
+
+//Second problem//
+
+public abstract class BankAccount {
+    protected double balance;
+
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    public abstract void calculateInterest();
+
+    public void displayBalance() {
+        System.out.println("Current Balance: " + balance);
+    }
+}
+public class SavingsAccount extends BankAccount {
+    public SavingsAccount(double balance) {
+        super(balance);
+    }
+
+    @Override
+    public void calculateInterest() {
+        double interest = balance * 0.04;
+        System.out.println("Savings Account Interest: " + interest);
+    }
+}
+public class CurrentAccount extends BankAccount {
+    public CurrentAccount(double balance) {
+        super(balance);
+    }
+
+    @Override
+    public void calculateInterest() {
+        double interest = balance * 0.02;
+        System.out.println("Current Account Interest: " + interest);
+    }
+}
+public class BankTest {
+    public static void main(String[] args) {
+        BankAccount acc1 = new SavingsAccount(10000);
+        acc1.displayBalance();
+        acc1.calculateInterest();
+
+        BankAccount acc2 = new CurrentAccount(15000);
+        acc2.displayBalance();
+        acc2.calculateInterest();
+    }
+}
+//problem 3//
+public interface PaymentGateway {
+    void pay(double amount);
+    void refund(double amount);
+}
+public class CreditCardPayment implements PaymentGateway {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid via Credit Card: $" + amount);
+    }
+
+    @Override
+    public void refund(double amount) {
+        System.out.println("Refund to Credit Card: $" + amount);
+    }
+}
+public class UPIPayment implements PaymentGateway {
+    @Override
+    public void pay(double amount) {
+        System.out.println("Paid via UPI: ₹" + amount);
+    }
+
+    @Override
+    public void refund(double amount) {
+        System.out.println("Refund to UPI: ₹" + amount);
+    }
+}
+public class PaymentTest {
+    public static void main(String[] args) {
+        PaymentGateway p1 = new CreditCardPayment();
+        p1.pay(2500);
+        p1.refund(500);
+
+        PaymentGateway p2 = new UPIPayment();
+        p2.pay(1500);
+        p2.refund(200);
+    }
+}
+//problem 4//
+public interface Camera {
+    void takePhoto();
+}
+public interface MusicPlayer {
+    void playMusic();
+}
+public class SmartPhone implements Camera, MusicPlayer {
+    @Override
+    public void takePhoto() {
+        System.out.println("Taking photo with smartphone");
+    }
+
+    @Override
+    public void playMusic() {
+        System.out.println("Playing music on smartphone");
+    }
+}
+public class DeviceTest {
+    public static void main(String[] args) {
+        SmartPhone sp = new SmartPhone();
+        sp.takePhoto();
+        sp.playMusic();
+    }
+}
+//problem 5//
+public abstract class Employee {
+    protected String name;
+    protected double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public abstract double calculateBonus();
+
+    public void displayDetails() {
+        System.out.println("Employee Name: " + name);
+        System.out.println("Salary: " + salary);
+    }
+}
+public class Manager extends Employee {
+    public Manager(String name, double salary) {
+        super(name, salary);
+    }
+
+    @Override
+    public double calculateBonus() {
+        double bonus = salary * 0.20;
+        System.out.println("Manager Bonus: " + bonus);
+        return bonus;
+    }
+}
+public class Developer extends Employee {
+    public Developer(String name, double salary) {
+        super(name, salary);
+    }
+
+    @Override
+    public double calculateBonus() {
+        double bonus = salary * 0.10;
+        System.out.println("Developer Bonus: " + bonus);
+        return bonus;
+    }
+}
+public class EmployeeTest {
+    public static void main(String[] args) {
+        Employee e1 = new Manager("Alice", 50000);
+        e1.displayDetails();
+        e1.calculateBonus();
+
+        Employee e2 = new Developer("Bob", 40000);
+        e2.displayDetails();
+        e2.calculateBonus();
+    }
+}
