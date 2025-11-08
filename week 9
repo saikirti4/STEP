@@ -1,0 +1,332 @@
+//problem 1//
+public class Vehicle {
+    private String registrationNo;
+    private String type;
+    private double ratePerDay;
+
+    // Constructor
+    public Vehicle(String registrationNo, String type, double ratePerDay) {
+        this.registrationNo = registrationNo;
+        this.type = type;
+        this.ratePerDay = ratePerDay;
+    }
+
+    // Getters
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getRatePerDay() {
+        return ratePerDay;
+    }
+
+    // Override toString()
+    @Override
+    public String toString() {
+        return "Vehicle: " + registrationNo + ", Type: " + type + ", Rate: $" + ratePerDay + "/day";
+    }
+}
+public class Vehicle {
+    private String registrationNo;
+    private String type;
+    private double ratePerDay;
+
+    // Constructor
+    public Vehicle(String registrationNo, String type, double ratePerDay) {
+        this.registrationNo = registrationNo;
+        this.type = type;
+        this.ratePerDay = ratePerDay;
+    }
+
+    // Getters
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getRatePerDay() {
+        return ratePerDay;
+    }
+
+    // Override toString()
+    @Override
+    public String toString() {
+        return "Vehicle: " + registrationNo + ", Type: " + type + ", Rate: $" + ratePerDay + "/day";
+    }
+}
+public class VehicleRental {
+    public static void main(String[] args) {
+        Vehicle v1 = new Vehicle("MH12AB1234", "Sedan", 1500);
+        System.out.println(v1);
+
+        Vehicle v2 = new Vehicle("MH14CD5678", "SUV", 2000);
+        System.out.println(v2);
+
+        System.out.println("Are both vehicles same? " + v1.equals(v2));
+    }
+}
+//problem 2//
+import java.util.Objects;
+
+public class Employee {
+    private String empCode;
+    private String name;
+
+    public Employee(String empCode, String name) {
+        this.empCode = empCode;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Employee)) return false;
+        Employee e = (Employee) obj;
+        return empCode.equals(e.empCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(empCode);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{code='" + empCode + "', name='" + name + "'}";
+    }
+}
+import java.util.HashSet;
+
+public class EmployeeAuth {
+    public static void main(String[] args) {
+        Employee e1 = new Employee("BL001", "Ritika");
+        Employee e2 = new Employee("BL001", "Ritika S.");
+
+        System.out.println("e1 == e2 ? " + (e1 == e2));
+        System.out.println("e1.equals(e2) ? " + e1.equals(e2));
+
+        HashSet<Employee> employees = new HashSet<>();
+        employees.add(e1);
+        employees.add(e2);
+
+        System.out.println("Employees in HashSet: " + employees);
+    }
+}
+//problem 3//
+public class Payment {
+    public void pay() {
+        System.out.println("Generic payment");
+    }
+}
+public class CreditCardPayment extends Payment {
+    @Override
+    public void pay() {
+        System.out.println("Paid using Credit Card");
+    }
+}
+public class WalletPayment extends Payment {
+    @Override
+    public void pay() {
+        System.out.println("Paid using Wallet");
+    }
+}
+public class PaymentGateway {
+    public static void main(String[] args) {
+        Payment[] payments = { new CreditCardPayment(), new WalletPayment() };
+
+        for (Payment p : payments) {
+            System.out.println("Processing: " + p.getClass().getSimpleName());
+            p.pay();
+        }
+    }
+}
+//problem 4//
+public class ContactInfo implements Cloneable {
+    String email;
+    String phone;
+
+    public ContactInfo(String email, String phone) {
+        this.email = email;
+        this.phone = phone;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); // shallow copy
+    }
+
+    @Override
+    public String toString() {
+        return "Email: " + email + ", Phone: " + phone;
+    }
+}
+public class Student implements Cloneable {
+    String id;
+    String name;
+    ContactInfo contact;
+
+    public Student(String id, String name, ContactInfo contact) {
+        this.id = id;
+        this.name = name;
+        this.contact = contact;
+    }
+
+    // Shallow copy
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    // Deep copy
+    protected Student deepClone() throws CloneNotSupportedException {
+        Student cloned = (Student) super.clone();
+        cloned.contact = (ContactInfo) contact.clone();
+        return cloned;
+    }
+
+    @Override
+    public String toString() {
+        return "Student ID: " + id + ", Name: " + name + ", " + contact;
+    }
+}
+public class Registration {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        ContactInfo c1 = new ContactInfo("john@example.com", "9999999999");
+        Student s1 = new Student("S101", "John", c1);
+
+        Student shallowCopy = (Student) s1.clone();
+        Student deepCopy = s1.deepClone();
+
+        System.out.println("Original: " + s1);
+        System.out.println("Shallow: " + shallowCopy);
+        System.out.println("Deep: " + deepCopy);
+
+        // Modify contact info
+        s1.contact.email = "changed@mail.com";
+
+        System.out.println("\nAfter modifying original contact:");
+        System.out.println("Original: " + s1);
+        System.out.println("Shallow: " + shallowCopy);
+        System.out.println("Deep: " + deepCopy);
+    }
+}
+
+//problem 5//
+public class Hospital {
+    private String name;
+
+    public Hospital(String name) {
+        this.name = name;
+    }
+
+    public class Department {
+        private String deptName;
+
+        public Department(String deptName) {
+            this.deptName = deptName;
+        }
+
+        public void displayInfo() {
+            System.out.println("Department: " + deptName + ", Hospital: " + name);
+        }
+    }
+
+    public Department createDepartment(String deptName) {
+        return new Department(deptName);
+    }
+}
+public class HospitalManagement {
+    public static void main(String[] args) {
+        Hospital h = new Hospital("City Hospital");
+
+        Hospital.Department d1 = h.createDepartment("Cardiology");
+        Hospital.Department d2 = h.createDepartment("Neurology");
+
+        d1.displayInfo();
+        d2.displayInfo();
+    }
+}
+public class HospitalManagement {
+    public static void main(String[] args) {
+        Hospital h = new Hospital("City Hospital");
+
+        Hospital.Department d1 = h.createDepartment("Cardiology");
+        Hospital.Department d2 = h.createDepartment("Neurology");
+
+        d1.displayInfo();
+        d2.displayInfo();
+    }
+}
+public class AppConfig {
+    private String appName = "MyApplication";
+
+    public static class NetworkConfig {
+        private String host;
+        private int port;
+
+        public NetworkConfig(String host, int port) {
+            this.host = host;
+            this.port = port;
+        }
+
+        public void displayConfig() {
+            System.out.println("Network Host: " + host + ", Port: " + port);
+        }
+    }
+}
+public class AppConfigurator {
+    public static void main(String[] args) {
+        AppConfig.NetworkConfig config = new AppConfig.NetworkConfig("localhost", 8080);
+        config.displayConfig();
+    }
+}
+//probelm 7//
+public class VotingSystem {
+    public void processVote(String voterId, String candidate) {
+        class VoteValidator {
+            public boolean validate(String id) {
+                return id != null && id.startsWith("VOTER");
+            }
+        }
+
+        VoteValidator validator = new VoteValidator();
+        if (validator.validate(voterId)) {
+            System.out.println("Vote accepted for " + candidate + " (Voter: " + voterId + ")");
+        } else {
+            System.out.println("Invalid Voter ID: " + voterId);
+        }
+    }
+
+    public static void main(String[] args) {
+        VotingSystem vs = new VotingSystem();
+        vs.processVote("VOTER001", "Alice");
+        vs.processVote("12345", "Bob");
+    }
+}
+//problem 8//
+interface Notifier {
+    void send(String message);
+}
+public class Service {
+    public void triggerAlert() {
+        Notifier notifier = new Notifier() {
+            @Override
+            public void send(String message) {
+                System.out.println("ALERT: " + message);
+            }
+        };
+
+        notifier.send("System Overload! Immediate Attention Needed.");
+    }
+
+    public static void main(String[] args) {
+        new Service().triggerAlert();
+    }
+}
