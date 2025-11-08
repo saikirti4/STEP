@@ -1,0 +1,268 @@
+//problem 1//
+public class Book {
+    private String title;
+    private String author;
+    private String isbn;
+
+    // Constructor
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+    }
+
+    // Method to show book details
+    public void showDetails() {
+        System.out.println("Title: " + title + ", Author: " + author + ", ISBN: " + isbn);
+    }
+
+    // Getter for title
+    public String getTitle() {
+        return title;
+    }
+}
+import java.util.*;
+
+public class Library {
+    private String name;
+    private List<Book> books;
+
+    public Library(String name) {
+        this.name = name;
+        this.books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+        System.out.println("Added book '" + book.getTitle() + "' to " + name + " Library");
+    }
+
+    public void showBooks() {
+        System.out.println("Books in " + name + " Library:");
+        for (Book b : books) {
+            b.showDetails();
+        }
+    }
+}
+import java.util.*;
+
+public class Member {
+    private String name;
+    private List<Book> borrowedBooks;
+
+    public Member(String name) {
+        this.name = name;
+        this.borrowedBooks = new ArrayList<>();
+    }
+
+    public void borrowBook(Book book) {
+        borrowedBooks.add(book);
+        System.out.println(name + " borrowed book: " + book.getTitle());
+    }
+
+    public void showBorrowedBooks() {
+        System.out.println("Books borrowed by " + name + ":");
+        for (Book b : borrowedBooks) {
+            b.showDetails();
+        }
+    }
+}
+public class LibraryDemo {
+    public static void main(String[] args) {
+        // Step 1: Create Library
+        Library lib = new Library("Central City");
+
+        // Step 2: Create Book objects
+        Book b1 = new Book("The Alchemist", "Paulo Coelho", "ISBN123");
+        Book b2 = new Book("1984", "George Orwell", "ISBN456");
+        Book b3 = new Book("Clean Code", "Robert C. Martin", "ISBN789");
+
+        // Step 3: Add Books to Library
+        lib.addBook(b1);
+        lib.addBook(b2);
+        lib.addBook(b3);
+
+        // Step 4: Display all books
+        lib.showBooks();
+
+        // Step 5: Create Member
+        Member m1 = new Member("Ravi");
+
+        // Step 6: Borrow Books
+        m1.borrowBook(b1);
+        m1.borrowBook(b3);
+
+        // Step 7: Show borrowed books
+        m1.showBorrowedBooks();
+    }
+}
+//problem 2//
+public class Product {
+    private String name;
+    private double price;
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public void showDetails() {
+        System.out.println("Product: " + name + ", Price: ₹" + price);
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+import java.util.*;
+
+public class Order {
+    private String orderId;
+    private List<Product> products;
+
+    public Order(String orderId) {
+        this.orderId = orderId;
+        this.products = new ArrayList<>();
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        System.out.println("Added product '" + product.getName() + "' to Order " + orderId);
+    }
+
+    public void showOrderDetails() {
+        System.out.println("Order " + orderId + " contains:");
+        for (Product p : products) {
+            p.showDetails();
+        }
+    }
+}
+import java.util.*;
+
+public class Customer {
+    private String name;
+    private String email;
+    private List<Order> orders;
+
+    public Customer(String name, String email) {
+        this.name = name;
+        this.email = email;
+        this.orders = new ArrayList<>();
+    }
+
+    public void placeOrder(Order order) {
+        orders.add(order);
+        System.out.println(name + " placed Order " + order);
+    }
+
+    public void showCustomerOrders() {
+        System.out.println("Orders placed by " + name + ":");
+        for (Order o : orders) {
+            o.showOrderDetails();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return email; // For printing in logs
+    }
+}
+public class ShoppingDemo {
+    public static void main(String[] args) {
+        // Step 1: Create Customer
+        Customer customer1 = new Customer("Amit", "amit@gmail.com");
+
+        // Step 2: Create Product objects
+        Product p1 = new Product("Laptop", 55000);
+        Product p2 = new Product("Mobile", 25000);
+        Product p3 = new Product("Mouse", 800);
+
+        // Step 3: Create Orders and add products
+        Order order1 = new Order("ORD101");
+        order1.addProduct(p1);
+        order1.addProduct(p2);
+
+        Order order2 = new Order("ORD102");
+        order2.addProduct(p3);
+
+        // Step 4: Associate orders with customer
+        customer1.placeOrder(order1);
+        customer1.placeOrder(order2);
+
+        // Step 5: Display all orders and products
+        customer1.showCustomerOrders();
+    }
+}
+//problem 3//
+public class BankAccount {
+    private String accountNumber;
+    private double balance;
+    private int pin;
+
+    public BankAccount(String accountNumber, double balance, int pin) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.pin = pin;
+    }
+
+    public boolean validatePin(int enteredPin) {
+        return this.pin == enteredPin;
+    }
+
+    public void debit(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("₹" + amount + " withdrawn. Remaining balance: ₹" + balance);
+        } else {
+            System.out.println("Insufficient balance!");
+        }
+    }
+}
+public class ATM {
+    private BankAccount linkedAccount;
+
+    public ATM(BankAccount linkedAccount) {
+        this.linkedAccount = linkedAccount;
+    }
+
+    public void withdraw(int enteredPin, double amount) {
+        if (linkedAccount.validatePin(enteredPin)) {
+            linkedAccount.debit(amount);
+            System.out.println("Transaction successful!");
+        } else {
+            System.out.println("Invalid PIN. Transaction failed.");
+        }
+    }
+}
+public class Customer {
+    private String name;
+    private ATM atm;
+
+    public Customer(String name, ATM atm) {
+        this.name = name;
+        this.atm = atm;
+    }
+
+    public void performWithdrawal(int pin, double amount) {
+        System.out.println(name + " is requesting withdrawal of ₹" + amount + "...");
+        atm.withdraw(pin, amount);
+    }
+}
+public class ATMDemo {
+    public static void main(String[] args) {
+        // Step 1: Create BankAccount
+        BankAccount account = new BankAccount("ACC123", 20000, 1234);
+
+        // Step 2: Create ATM linked to BankAccount
+        ATM atm = new ATM(account);
+
+        // Step 3: Create Customer linked to ATM
+        Customer customer = new Customer("Rahul", atm);
+
+        // Step 4: Withdraw with correct PIN
+        customer.performWithdrawal(1234, 5000);
+
+        // Step 5: Withdraw with wrong PIN
+        customer.performWithdrawal(1111, 2000);
+    }
+}
